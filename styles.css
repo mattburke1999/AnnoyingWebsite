@@ -10,6 +10,10 @@
     background-color: white;
 }
 
+.title {
+    margin-left: 1rem;
+}
+
 .container1, .container2, .container3, .finished {
     position: absolute;
     border-radius: 5px;
