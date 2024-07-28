@@ -1,8 +1,16 @@
-body {
+.body {
     font-family: 'Courier New', Courier, monospace;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    background-color: white;
 }
 
-.container1, .container2, .container3, .container4 {
+.container1, .container2, .container3, .finished {
     position: absolute;
     border-radius: 5px;
     box-shadow: 5px 5px 5px grey;
@@ -64,20 +72,12 @@ body {
     background-color: lightyellow;
 }
 
-.finished {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
-.container4 {
+.finished {
     width: 550px;
     height: 475px;
     background-color: lightcoral;
-    top: 15%;
+    top: 7.5%;
 }
 
 /* The switch - the box around the slider */
@@ -152,4 +152,9 @@ body {
     position: absolute;
     top: 5%;
     right: 5%;
+ }
+
+ .miss1, .miss2, .miss3, .miss4, .miss5, .miss6, .miss7, .miss8 {
+    position: absolute;
+    font-size: 1.5rem;
  }
