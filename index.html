@@ -6,23 +6,34 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
+    <div class="dark-light-mode">
+        <h1 id='theme-label' class="theme-label">Enable Dark Mode?</h1>
+        <label class="switch">
+            <input id='dark-light-mode' type="checkbox">
+            <span class="slider round"></span>
+          </label>
+    </div>
+    <div class="title">
+        <h1>Welcome to my Game.</h1>
+        <h2>Good Luck!</h2>
+    </div>
     <div id="container1" class="container1" style="display: none;">
         <label for="click1">Click here to begin</label>
-        <button id="click1" onclick="nextStep()">Click me</button>
+        <button id="click1" class='click1' onclick="nextStep()">Click me</button>
     </div>
     <div id="container2" class="container2" style="display: none;">
         <h1>Congrats! You made it</h1>
         <h1>past the first step!</h1>
         <h2 id="h2">0/3</h2>
         <label for="click2">Click here to move on</label>
-        <button id="click2" onclick="nextStep2()">Click me</button>
+        <button id="click2" class="click2" onclick="nextStep2()">Click me</button>
     </div>
     <div id="container3" class="container3" style="display: none;">
         <h1>Nice! Another one done!</h1>
         <h1>This one might be a little tough</h1>
         <h2 id="h3">0/3</h2>
         <label for="click3">Click here to move on</label>
-        <button id="click3" onclick="nextStep3()">Click me</button>
+        <button id="click3" class="click3" onclick="nextStep3()">Click me</button>
     </div>
     <div id="finished" class="finished" style="display: none;">
         <div class="container4">
@@ -32,7 +43,7 @@
             <h2 id="part2"></h2>
             <h2 id="part3"></h2>
             <h2 id="total"></h2>
-            <button onclick="startOver()">Start Over</button>
+            <button class="start-over" onclick="startOver()">Start Over</button>
         </div>
     </div>
 </body>

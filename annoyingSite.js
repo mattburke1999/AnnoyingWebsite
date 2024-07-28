@@ -164,3 +164,18 @@ window.onload = function () {
         moveRandom(container);
     }
 }
+
+const themeSwitch = document.getElementById("dark-light-mode");
+
+themeSwitch.onchange = function () {
+    console.log(themeSwitch.checked);
+    if (themeSwitch.checked) {
+        document.body.style.backgroundColor = "#3a3d40";
+        document.getElementById('theme-label').textContent = 'Enable Light Mode';
+        document.getElementById('theme-label').style.color = "white";
+    } else {
+        document.body.style.backgroundColor = "white";
+        document.getElementById('theme-label').textContent = 'Enable Dark Mode';
+        document.getElementById('theme-label').style.color = "black";
+    }
+}
