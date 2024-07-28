@@ -2,41 +2,49 @@
 <html>
 
 <head>
-    <title>Annoying Site</title>
+    <title>Annoying Website</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <div class="dark-light-mode">
-        <h1 id='theme-label' class="theme-label">Enable Dark Mode?</h1>
-        <label class="switch">
-            <input id='dark-light-mode' type="checkbox">
-            <span class="slider round"></span>
-          </label>
-    </div>
-    <div class="title">
-        <h1>Welcome to my Game.</h1>
-        <h2>Good Luck!</h2>
-    </div>
-    <div id="container1" class="container1" style="display: none;">
-        <label for="click1">Click here to begin</label>
-        <button id="click1" class='click1' onclick="nextStep()">Click me</button>
-    </div>
-    <div id="container2" class="container2" style="display: none;">
-        <h1>Congrats! You made it</h1>
-        <h1>past the first step!</h1>
-        <h2 id="h2">0/3</h2>
-        <label for="click2">Click here to move on</label>
-        <button id="click2" class="click2" onclick="nextStep2()">Click me</button>
-    </div>
-    <div id="container3" class="container3" style="display: none;">
-        <h1>Nice! Another one done!</h1>
-        <h1>This one might be a little tough</h1>
-        <h2 id="h3">0/3</h2>
-        <label for="click3">Click here to move on</label>
-        <button id="click3" class="click3" onclick="nextStep3()">Click me</button>
-    </div>
-    <div id="finished" class="finished" style="display: none;">
-        <div class="container4">
+    <div id="body" class="body" onclick="miss()">
+        <div class="dark-light-mode">
+            <h1 id='theme-label' class="theme-label">Enable Dark Mode?</h1>
+            <label class="switch">
+                <input id='dark-light-mode' type="checkbox">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <h1 id="miss1" class="miss1" style="display: none;">Oof, you missed!</h1>
+        <h1 id="miss2" class="miss2" style="display: none;">So close!</h1>
+        <h1 id="miss3" class="miss3" style="display: none;">Almost there!</h1>
+        <h1 id="miss4" class="miss4" style="display: none;">You'll get it next time!</h1>
+        <h1 id="miss5" class="miss5" style="display: none;">You're getting closer!</h1>
+        <h1 id="miss6" class="miss6" style="display: none;">Nice Try!</h1>
+        <h1 id="miss7" class="miss7" style="display: none;">Sorry!</h1>
+        <h1 id="miss8" class="miss8" style="display: none;">Try Again!</h1>
+        <div class="title" onclick="miss()">
+            <h1>Welcome to my Game.</h1>
+            <h2>Good Luck!</h2>
+        </div>
+        <div id="container1" class="container1" onclick="miss()" style="display: none;">
+            <label for="click1">Click here to begin</label>
+            <button id="click1" class='click1' onclick="nextStep()">Click me</button>
+        </div>
+        <div id="container2" class="container2" onclick="miss()" style="display: none;">
+            <h1>Congrats! You made it</h1>
+            <h1>past the first step!</h1>
+            <h2 id="h2">0/3</h2>
+            <label for="click2">Click here to move on</label>
+            <button id="click2" class="click2" onclick="nextStep2()">Click me</button>
+        </div>
+        <div id="container3" class="container3" onclick="miss()" style="display: none;">
+            <h1>Nice! Another one done!</h1>
+            <h1>This one might be a little tough</h1>
+            <h2 id="h3">0/3</h2>
+            <label for="click3">Click here to move on</label>
+            <button id="click3" class="click3" onclick="nextStep3()">Click me</button>
+        </div>
+        <div id="finished" class="finished" style="display: none;">
             <h1>Congratulations!</h1>
             <h1>You have completed the game!</h1>
             <h2 id="part1"></h2>
