@@ -196,17 +196,29 @@ function removeMisses() {
     }
 }
 
+let currentColor = 0;
+let currentText = 0;
+
 function miss() {
     if (!isFinished) {
         // pick random color
         let randomColor = colors[Math.floor(Math.random() * colors.length)];
         let random = Math.floor(Math.random() * missTexts) + 1;
+        while (random === currentText) {
+            random = Math.floor(Math.random() * missTexts) + 1;
+        }
+        while (randomColor === currentColor) {
+            randomColor = colors[Math.floor(Math.random() * colors.length)];
+        }
         let textRandom = document.getElementById(`miss${random}`);
         for (let i = 1; i < missTexts+1; i++) {
             let text = document.getElementById(`miss${i}`);
             if (i === random) {
                 text.style.display = "block";
                 text.style.color = randomColor;
+                text.style.textShadow = `0 0 7px ${randomColor}`;
+                currentColor = randomColor;
+                currentText = random;
             } else {
                 text.style.display = "none";
             }
