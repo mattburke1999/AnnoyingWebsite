@@ -50,7 +50,6 @@ function nextStep(event) {
 
 function nextStep2(event) {
     event.stopPropagation();
-    removeMisses();
     counter += 1;
     if (counter === 3) {
         let container2Start = localStorage.getItem("container2StartTime");
@@ -69,7 +68,6 @@ function nextStep2(event) {
 
 function nextStep3(event) {
     event.stopPropagation();
-    removeMisses();
     counter2 += 1;
     const h2 = document.getElementById("h3");
     if (counter2 === 1) {
@@ -98,8 +96,6 @@ function startOver(event) {
     document.getElementById("h3").textContent = "0/3";
     // reset storage
     localStorage.clear();
-    // remove miss texts
-    removeMisses();
     // reset active container
     localStorage.setItem("activeContainer", "container1");
     localStorage.setItem("container1StartTime", Date.now());
@@ -161,13 +157,6 @@ function setTimes() {
     document.getElementById("total").textContent = "Total: " + total + " seconds";
 }
 
-function removeMisses() {
-    for (let i = 1; i < missTexts+1; i++) {
-        let text = document.getElementById(`miss${i}`);
-        text.style.display = "none";
-    }
-}
-
 function miss() {
     // pick random color
     let randomColor = colors[Math.floor(Math.random() * colors.length)];
@@ -221,7 +210,6 @@ window.onload = function () {
 }
 
 themeSwitch.onchange = function () {
-    removeMisses();
     if (themeSwitch.checked) {
         document.getElementById('body').style.backgroundColor = "#3a3d40";
         document.getElementById('theme-label').textContent = 'Enable Light Mode?';
