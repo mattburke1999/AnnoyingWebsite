@@ -28,21 +28,21 @@
         </div>
         <div id="container1" class="container1" onclick="miss()" style="display: none;">
             <label for="click1">Click here to begin</label>
-            <button id="click1" class='click1' onclick="nextStep()">Click me</button>
+            <button id="click1" class='click1' onclick="nextStep(event)">Click me</button>
         </div>
         <div id="container2" class="container2" onclick="miss()" style="display: none;">
             <h1>Congrats! You made it</h1>
             <h1>past the first step!</h1>
             <h2 id="h2">0/3</h2>
             <label for="click2">Click here to move on</label>
-            <button id="click2" class="click2" onclick="nextStep2()">Click me</button>
+            <button id="click2" class="click2" onclick="nextStep2(event)">Click me</button>
         </div>
         <div id="container3" class="container3" onclick="miss()" style="display: none;">
             <h1>Nice! Another one done!</h1>
             <h1>This one might be a little tough</h1>
             <h2 id="h3">0/3</h2>
             <label for="click3">Click here to move on</label>
-            <button id="click3" class="click3" onclick="nextStep3()">Click me</button>
+            <button id="click3" class="click3" onclick="nextStep3(event)">Click me</button>
         </div>
         <div id="finished" class="finished" style="display: none;">
             <h1>Congratulations!</h1>
@@ -51,7 +51,7 @@
             <h2 id="part2"></h2>
             <h2 id="part3"></h2>
             <h2 id="total"></h2>
-            <button class="start-over" onclick="startOver()">Start Over</button>
+            <button class="start-over" onclick="startOver(event)">Start Over</button>
         </div>
     </div>
 </body>

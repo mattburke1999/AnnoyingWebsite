@@ -34,8 +34,8 @@ function mouseOver2(container) {
     }, 200);
 }
 
-function nextStep() {
-    removeMisses();
+function nextStep(event) {
+    event.stopPropagation();
     // remove the current container
     let container1Start = localStorage.getItem("container1StartTime");
     let container1Time = Date.now() - container1Start;
@@ -48,7 +48,8 @@ function nextStep() {
     moveRandom(container2);
 }
 
-function nextStep2() {
+function nextStep2(event) {
+    event.stopPropagation();
     removeMisses();
     counter += 1;
     if (counter === 3) {
@@ -60,14 +61,14 @@ function nextStep2() {
         localStorage.setItem("container3StartTime", Date.now());
         container3.style.display = "flex";
         moveRandom(container3);
-    }
-    else {
+    } else {
         const h2 = document.getElementById("h2");
         h2.textContent = counter + "/3";
     }
 }
 
-function nextStep3() {
+function nextStep3(event) {
+    event.stopPropagation();
     removeMisses();
     counter2 += 1;
     const h2 = document.getElementById("h3");
@@ -88,7 +89,8 @@ function nextStep3() {
     }
 }
 
-function startOver() {
+function startOver(event) {
+    event.stopPropagation();
     // reset counters
     counter = 0;
     document.getElementById("h2").textContent = "0/3";
