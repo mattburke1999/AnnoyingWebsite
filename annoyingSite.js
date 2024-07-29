@@ -3,6 +3,7 @@ const container2 = document.getElementById("container2");
 const container3 = document.getElementById("container3");
 const finish = document.getElementById("finished");
 const themeSwitch = document.getElementById("dark-light-mode");
+const title = document.getElementById("title");
 
 const colors = ["red", "blue", "green", "purple", "orange", "pink", "brown"];
 
@@ -11,6 +12,7 @@ container2.onmouseover = () => mouseOver(350, container2);
 container3.onmouseover = () => mouseOver2(container3);
 
 let isMoving = false;
+let isFinished = false;
 
 let counter = 0;
 let counter2 = 0;
@@ -36,6 +38,7 @@ function mouseOver2(container) {
 
 function nextStep(event) {
     event.stopPropagation();
+    removeMisses();
     // remove the current container
     let container1Start = localStorage.getItem("container1StartTime");
     let container1Time = Date.now() - container1Start;
@@ -50,6 +53,7 @@ function nextStep(event) {
 
 function nextStep2(event) {
     event.stopPropagation();
+    removeMisses();
     counter += 1;
     if (counter === 3) {
         let container2Start = localStorage.getItem("container2StartTime");
@@ -68,6 +72,7 @@ function nextStep2(event) {
 
 function nextStep3(event) {
     event.stopPropagation();
+    removeMisses();
     counter2 += 1;
     const h2 = document.getElementById("h3");
     if (counter2 === 1) {
@@ -77,6 +82,7 @@ function nextStep3(event) {
         container3.onmouseover = () => mouseOver2(container3);
         h2.textContent = counter2 + "/3";
     } else if (counter2 === 3) {
+        isFinished = true;
         let container3Start = localStorage.getItem("container3StartTime");
         let container3Time = Date.now() - container3Start;
         localStorage.setItem("container3Time", container3Time);
@@ -84,6 +90,7 @@ function nextStep3(event) {
         localStorage.setItem("activeContainer", "finished");
         setTimes();
         finish.style.display = "flex";
+        title.style.display = "none";
     }
 }
 
@@ -91,6 +98,8 @@ function startOver(event) {
     if (event) {
         event.stopPropagation();
     }
+    removeMisses();
+    isFinished = false;
     // reset counters
     counter = 0;
     document.getElementById("h2").textContent = "0/3";
@@ -103,6 +112,7 @@ function startOver(event) {
     localStorage.setItem("container1StartTime", Date.now());
     finish.style.display = "none";
     container1.style.display = "flex";
+    title.style.display = "block";
     moveRandom(container1);
 }
 
@@ -159,21 +169,30 @@ function setTimes() {
     document.getElementById("total").textContent = "Total: " + total + " seconds";
 }
 
-function miss() {
-    // pick random color
-    let randomColor = colors[Math.floor(Math.random() * colors.length)];
-    let random = Math.floor(Math.random() * missTexts) + 1;
-    let textRandom = document.getElementById(`miss${random}`);
+function removeMisses() {
     for (let i = 1; i < missTexts+1; i++) {
         let text = document.getElementById(`miss${i}`);
-        if (i === random) {
-            text.style.display = "block";
-            text.style.color = randomColor;
-        } else {
-            text.style.display = "none";
-        }
+        text.style.display = "none";
     }
-    moveRandom(textRandom);
+}
+
+function miss() {
+    if (!isFinished) {
+        // pick random color
+        let randomColor = colors[Math.floor(Math.random() * colors.length)];
+        let random = Math.floor(Math.random() * missTexts) + 1;
+        let textRandom = document.getElementById(`miss${random}`);
+        for (let i = 1; i < missTexts+1; i++) {
+            let text = document.getElementById(`miss${i}`);
+            if (i === random) {
+                text.style.display = "block";
+                text.style.color = randomColor;
+            } else {
+                text.style.display = "none";
+            }
+        }
+        moveRandom(textRandom);
+    }
 }
 
 function countMissTexts() {
@@ -212,6 +231,7 @@ window.onload = function () {
 }
 
 themeSwitch.onchange = function () {
+    removeMisses();
     if (themeSwitch.checked) {
         document.getElementById('body').style.backgroundColor = "#3a3d40";
         document.getElementById('theme-label').textContent = 'Enable Light Mode?';
