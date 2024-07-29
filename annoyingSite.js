@@ -88,7 +88,9 @@ function nextStep3(event) {
 }
 
 function startOver(event) {
-    event.stopPropagation();
+    if (event) {
+        event.stopPropagation();
+    }
     // reset counters
     counter = 0;
     document.getElementById("h2").textContent = "0/3";
