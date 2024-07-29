@@ -34,8 +34,8 @@ function mouseOver2(container) {
     }, 200);
 }
 
-function nextStep() {
-    removeMisses();
+function nextStep(event) {
+    event.stopPropagation();
     // remove the current container
     let container1Start = localStorage.getItem("container1StartTime");
     let container1Time = Date.now() - container1Start;
@@ -48,8 +48,8 @@ function nextStep() {
     moveRandom(container2);
 }
 
-function nextStep2() {
-    removeMisses();
+function nextStep2(event) {
+    event.stopPropagation();
     counter += 1;
     if (counter === 3) {
         let container2Start = localStorage.getItem("container2StartTime");
@@ -60,15 +60,14 @@ function nextStep2() {
         localStorage.setItem("container3StartTime", Date.now());
         container3.style.display = "flex";
         moveRandom(container3);
-    }
-    else {
+    } else {
         const h2 = document.getElementById("h2");
         h2.textContent = counter + "/3";
     }
 }
 
-function nextStep3() {
-    removeMisses();
+function nextStep3(event) {
+    event.stopPropagation();
     counter2 += 1;
     const h2 = document.getElementById("h3");
     if (counter2 === 1) {
@@ -88,7 +87,8 @@ function nextStep3() {
     }
 }
 
-function startOver() {
+function startOver(event) {
+    event.stopPropagation();
     // reset counters
     counter = 0;
     document.getElementById("h2").textContent = "0/3";
@@ -96,8 +96,6 @@ function startOver() {
     document.getElementById("h3").textContent = "0/3";
     // reset storage
     localStorage.clear();
-    // remove miss texts
-    removeMisses();
     // reset active container
     localStorage.setItem("activeContainer", "container1");
     localStorage.setItem("container1StartTime", Date.now());
@@ -159,13 +157,6 @@ function setTimes() {
     document.getElementById("total").textContent = "Total: " + total + " seconds";
 }
 
-function removeMisses() {
-    for (let i = 1; i < missTexts+1; i++) {
-        let text = document.getElementById(`miss${i}`);
-        text.style.display = "none";
-    }
-}
-
 function miss() {
     // pick random color
     let randomColor = colors[Math.floor(Math.random() * colors.length)];
@@ -219,7 +210,6 @@ window.onload = function () {
 }
 
 themeSwitch.onchange = function () {
-    removeMisses();
     if (themeSwitch.checked) {
         document.getElementById('body').style.backgroundColor = "#3a3d40";
         document.getElementById('theme-label').textContent = 'Enable Light Mode?';
