@@ -55,14 +55,16 @@
             <label for="click3">Click here to move on</label>
             <button id="click3" class="click3" onclick="nextStep3(event)">Click me</button>
         </div>
-        <div id="finished" class="finished" style="display: none;">
-            <h1>Congratulations!</h1>
-            <h1>You have completed the game!</h1>
-            <h2 id="part1"></h2>
-            <h2 id="part2"></h2>
-            <h2 id="part3"></h2>
-            <h2 id="total"></h2>
-            <button class="start-over" onclick="startOver(event)">Start Over</button>
+        <div class="finished-wrapper" id="finished" style="display: none;">
+            <div class="finished">
+                <h1>Congratulations!</h1>
+                <h1>You have completed the game!</h1>
+                <h2 id="part1"></h2>
+                <h2 id="part2"></h2>
+                <h2 id="part3"></h2>
+                <h2 id="total"></h2>
+                <button class="start-over" onclick="startOver(event)">Start Over</button>
+            </div>
         </div>
     </div>
 </body>
