@@ -19,6 +19,26 @@ let counter2 = 0;
 
 let missTexts = 0;
 
+function check_div_over_miss_text(text) {
+    // look through the miss texts for any that are display: block, mkae sure the container is not over them
+    let activeContainer = localStorage.getItem("activeContainer");
+    let container = document.getElementById(activeContainer);
+    // for (let i = 1; i < missTexts+1; i++) {
+    //     let text = document.getElementById(`miss${i}`);
+    //     if (text.style.display === "block") {
+    let containerLeft = parseInt(container.style.left);
+    let containerTop = parseInt(container.style.top);
+    let containerWidth = parseInt(container.offsetWidth);
+    let containerHeight = parseInt(container.offsetHeight);
+    let textLeft = parseInt(text.style.left);
+    let textTop = parseInt(text.style.top);
+    let textWidth = parseInt(text.offsetWidth);
+    let textHeight = parseInt(text.offsetHeight);
+    let left_condition = containerLeft < textLeft + textWidth && containerLeft + containerWidth > textLeft;
+    let top_condition = containerTop < textTop + textHeight && containerTop + containerHeight > textTop;
+    return left_condition && top_condition 
+}
+    
 function mouseOver(timeLimit, container) {
     if (!isMoving) {
         isMoving = true;
@@ -138,9 +158,9 @@ function moveSlightly(container) {
 
 function moveRandom(object) {
     const objectWidth = parseInt(object.offsetWidth);
-    const objectHeight = parseInt(object.offsetHeight);
+    const objectHeight = parseInt(object.offsetHeight) + 90; // 90 is the height of the header
     let x = Math.floor(Math.random() * (window.innerWidth - objectWidth));
-    let y = Math.floor(Math.random() * (window.innerHeight - objectHeight));
+    let y = 90 + Math.floor(Math.random() * (window.innerHeight - objectHeight));
     let x_condition = Math.abs(x - parseInt(object.style.left)) < objectWidth / 2
     let y_condition = Math.abs(y - parseInt(object.style.top)) < objectHeight / 2
     if (x_condition && y_condition) {
@@ -192,6 +212,9 @@ function miss() {
             }
         }
         moveRandom(textRandom);
+        if(check_div_over_miss_text(textRandom)) {
+            moveRandom(textRandom);
+        }
     }
 }
 
