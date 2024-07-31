@@ -8,6 +8,7 @@
     top: 0;
     left: 0;
     background-color: white;
+    z-index: 0;
 }
 
 .title {
@@ -26,6 +27,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    z-index: 2;
 }
 
 .finished-wrapper,
@@ -89,8 +91,8 @@
 }
 
 .container4 {
-    width: 200px;
-    height: 75px;
+    width: 275px;
+    height: 100px;
     background-color: lightseagreen;
 }
 
@@ -105,6 +107,7 @@
 .dropzone,
 .draggable {
     width: fit-content;
+    height: fit-content;
     padding: 5px;
     border-radius: 5px;
     font-size: 1em;
@@ -122,6 +125,9 @@
 .draggable {
     border: 1px solid black;
     background-color: lightseagreen;
+    position: relative;
+    top: 125px;
+    left: 25px;
 }
 
 .container2 h2,
