@@ -14,6 +14,9 @@ container3.onmouseover = () => mouseOver2(container3);
 let isMoving = false;
 let isFinished = false;
 
+let currentColor = 0;
+let currentText = 0;
+
 let counter = 0;
 let counter2 = 0;
 
@@ -47,7 +50,7 @@ function mouseOver(timeLimit, container) {
             isMoving = false;
         }, timeLimit);
     }
-};
+}
 
 function mouseOver2(container) {
     // move the container slightly after a 200ms delay
@@ -56,13 +59,17 @@ function mouseOver2(container) {
     }, 200);
 }
 
+function setContainerTime(container) {
+    let containerStart = localStorage.getItem(`${container}StartTime`);
+    let containerTime = Date.now() - containerStart;
+    localStorage.setItem(`${container}Time`, containerTime);
+}
+
 function nextStep(event) {
     event.stopPropagation();
     removeMisses();
     // remove the current container
-    let container1Start = localStorage.getItem("container1StartTime");
-    let container1Time = Date.now() - container1Start;
-    localStorage.setItem("container1Time", container1Time);
+    setContainerTime("container1");
     container1.style.display = "none";
     // set the next container to be active
     localStorage.setItem("activeContainer", "container2");
@@ -76,9 +83,7 @@ function nextStep2(event) {
     removeMisses();
     counter += 1;
     if (counter === 3) {
-        let container2Start = localStorage.getItem("container2StartTime");
-        let container2Time = Date.now() - container2Start;
-        localStorage.setItem("container2Time", container2Time);
+        setContainerTime("container2");
         container2.style.display = "none";
         localStorage.setItem("activeContainer", "container3");
         localStorage.setItem("container3StartTime", Date.now());
@@ -103,9 +108,7 @@ function nextStep3(event) {
         h2.textContent = counter2 + "/3";
     } else if (counter2 === 3) {
         isFinished = true;
-        let container3Start = localStorage.getItem("container3StartTime");
-        let container3Time = Date.now() - container3Start;
-        localStorage.setItem("container3Time", container3Time);
+        setContainerTime("container3");
         container3.style.display = "none";
         localStorage.setItem("activeContainer", "finished");
         setTimes();
@@ -196,9 +199,6 @@ function removeMisses() {
     }
 }
 
-let currentColor = 0;
-let currentText = 0;
-
 function miss() {
     if (!isFinished) {
         // pick random color
@@ -247,21 +247,17 @@ window.onload = function () {
     setTimes();
     missTexts = countMissTexts();
     let activeContainer = localStorage.getItem("activeContainer");
-    if (!activeContainer) {
+    let lastGameStartTime = localStorage.getItem("container1StartTime");
+    if (!activeContainer || lastGameStartTime === undefined || Date.now() - lastGameStartTime > 3600000) {
         startOver();
         return;
-    } else {
-        let lastGameStartTime = localStorage.getItem("container1StartTime");
-        // if last game was over an hour ago, start over
-        if (Date.now() - lastGameStartTime > 3600000) {
-            startOver();
-            return;
-        }
     }
     let container = document.getElementById(activeContainer);
     container.style.display = "flex";
     if (!activeContainer.includes("finished")) {
         moveRandom(container);
+    } else {
+        title.style.display = "none";
     }
 }
 
