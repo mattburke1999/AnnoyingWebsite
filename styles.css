@@ -14,7 +14,11 @@
     margin-left: 1rem;
 }
 
-.container1, .container2, .container3, .finished {
+.container1,
+.container2,
+.container3,
+.container4,
+.finished {
     position: absolute;
     border-radius: 5px;
     box-shadow: 5px 5px 5px grey;
@@ -24,22 +28,26 @@
     align-items: center;
 }
 
+.finished-wrapper,
+.container4-wrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
 .finished-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .finished {
-  width: 550px;
-  height: 475px;
-  background-color: lightcoral;
+    width: 550px;
+    height: 475px;
+    background-color: lightcoral;
 }
 
 .container1 {
@@ -48,7 +56,10 @@
     background-color: lightblue;
 }
 
-.click1, .click2, .click3, .start-over {
+.click1,
+.click2,
+.click3,
+.start-over {
     background-color: inherit;
     border-radius: 5px;
     border: .5px solid black;
@@ -77,13 +88,44 @@
     background-color: lightgreen;
 }
 
-.container2 h1, .container3 h1 {
+.container4 {
+    width: 200px;
+    height: 75px;
+    background-color: lightseagreen;
+}
+
+.container2 h1,
+.container3 h1,
+.container4 h1 {
     font-size: 1em;
     margin: 0;
     align-content: center;
 }
 
-.container2 h2, .container3 h2 {
+.dropzone,
+.draggable {
+    width: fit-content;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.dropzone {
+    border: 1.5px dashed black;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.draggable {
+    border: 1px solid black;
+    background-color: lightseagreen;
+}
+
+.container2 h2,
+.container3 h2 {
     font-size: 0.75em;
     margin: 0;
 }
@@ -102,17 +144,17 @@
     width: 2.5rem;
     height: 1.5rem;
     margin-left: 50%;
-  }
-  
-  /* Hide default HTML checkbox */
-  .switch input {
+}
+
+/* Hide default HTML checkbox */
+.switch input {
     opacity: 0;
     width: 0;
     height: 0;
-  }
-  
-  /* The slider */
-  .slider {
+}
+
+/* The slider */
+.slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -122,9 +164,9 @@
     background-color: #ccc;
     -webkit-transition: .4s;
     transition: .4s;
-  }
-  
-  .slider:before {
+}
+
+.slider:before {
     position: absolute;
     content: "";
     height: 1.25rem;
@@ -134,44 +176,51 @@
     background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
-  }
-  
-  input:checked + .slider {
+}
+
+input:checked+.slider {
     background-color: #2196F3;
-  }
-  
-  input:focus + .slider {
+}
+
+input:focus+.slider {
     box-shadow: 0 0 1px #2196F3;
-  }
-  
-  input:checked + .slider:before {
+}
+
+input:checked+.slider:before {
     -webkit-transform: translateX(1.05rem);
     -ms-transform: translateX(1.05rem);
     transform: translateX(1.05rem);
-  }
-  
-  /* Rounded sliders */
-  .slider.round {
+}
+
+/* Rounded sliders */
+.slider.round {
     border-radius: 34px;
-  }
-  
-  .slider.round:before {
+}
+
+.slider.round:before {
     border-radius: 50%;
-  }
+}
 
-  .theme-label {
+.theme-label {
     font-size: 1rem;
-  }
+}
 
- .dark-light-mode {
+.dark-light-mode {
     position: absolute;
     top: 5%;
     right: 5%;
     z-index: 50;
- }
+}
 
- .miss1, .miss2, .miss3, .miss4, .miss5, .miss6, .miss7, .miss8 {
+.miss1,
+.miss2,
+.miss3,
+.miss4,
+.miss5,
+.miss6,
+.miss7,
+.miss8 {
     position: absolute;
     font-size: 1.5rem;
     text-shadow: 0 0 7px #1E90FF;
- }
+}

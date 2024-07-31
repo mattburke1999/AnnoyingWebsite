@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Untitled Document</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div id="container4-wrapper" class="container4-wrapper">
+        <h1 id="draggable" class='draggable' draggable="true">Drag me!</h1>
+        <div id="container4" class="container4">
+            <h1>Time to change it up a bit.</h1>
+            <h1></h1>
+            <div id="dropzone" class='dropzone'>Drop here!</div>
+        </div>
+    </div>
+</body>
+<script>
+
+    const container4 = document.getElementById('container4');
+    const container4Wrapper = document.getElementById('container4-wrapper');
+    const draggable = document.getElementById('draggable');
+    const dropzone = document.getElementById('dropzone');
+
+    container4.onmouseover = () => mouseOver(500, container4);
+    container4.addEventListener('dragover', (event) => {
+        allowDrop(event);
+        mouseOver(500, container4);
+    });
+
+    draggable.ondragstart = (event) => drag(event);
+    dropzone.ondrop = (event) => drop(event);
+    dropzone.ondragover = (event) => allowDrop(event);
+
+    let isMoving = false;
+    function mouseOver(timeLimit, container) {
+        if (!isMoving) {
+            isMoving = true;
+            setTimeout(function () {
+                moveRandom(container);
+                isMoving = false;
+            }, timeLimit);
+        }
+    }
+
+    function allowDrop(event) {
+        event.preventDefault();
+    }
+
+    function moveRandom(object) {
+        const objectWidth = parseInt(object.offsetWidth);
+        const objectHeight = parseInt(object.offsetHeight) + 90; // 90 is the height of the header
+        let x = Math.floor(Math.random() * (window.innerWidth - objectWidth));
+        let y = 90 + Math.floor(Math.random() * (window.innerHeight - objectHeight));
+        let x_condition = Math.abs(x - parseInt(object.style.left)) < objectWidth / 2
+        let y_condition = Math.abs(y - parseInt(object.style.top)) < objectHeight / 2
+        if (x_condition && y_condition) {
+            moveRandom(object);
+        } else {
+            object.style.left = x + "px";
+            object.style.top = y + "px";
+        }
+    }
+
+    function drag(event){
+        let color = window.getComputedStyle(draggable).backgroundColor;
+        let border = window.getComputedStyle(draggable).border;
+        event.dataTransfer.setData("color", color);
+        event.dataTransfer.setData("border", border);
+    }
+
+    function drop(event) {
+        event.preventDefault();
+        let newColor = event.dataTransfer.getData("color")
+        let newBorder = event.dataTransfer.getData("border")
+        dropzone.style.backgroundColor = newColor;
+        dropzone.style.border = newBorder;
+        draggable.style.display = 'none';
+    }
+
+</script>
+
+</html>
