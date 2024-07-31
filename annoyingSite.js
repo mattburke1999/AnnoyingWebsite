@@ -25,9 +25,6 @@ dropzone.ondragover = (event) => allowDrop(event);
 let isMoving = false;
 let isFinished = false;
 
-let currentColor = 0;
-let currentText = 0;
-
 let counter = 0;
 let counter2 = 0;
 
@@ -84,6 +81,12 @@ function check_div_over_miss_text(text) {
     return left_condition && top_condition 
 }
 
+function setContainerTime(container) {
+    let containerStart = localStorage.getItem(`${container}StartTime`);
+    let containerTime = Date.now() - containerStart;
+    localStorage.setItem(`${container}Time`, containerTime);
+}
+
 function allowDrop(event) {
     event.preventDefault();
 }
@@ -111,17 +114,27 @@ function setContainerTime(container) {
     localStorage.setItem(`${container}Time`, containerTime);
 }
 
+function nextContainer(prevContainer, newContainer) {
+    console.log(`Moving from ${prevContainer} to ${newContainer}`);
+    setContainerTime(prevContainer);
+    const prevElement = document.getElementById(prevContainer);
+    const newElement = document.getElementById(newContainer);
+    prevElement.style.display = "none";
+    newElement.style.display = "flex";
+    localStorage.setItem("activeContainer", newContainer);
+    if (newContainer.includes('container4')) {
+        newContainer = 'container4';
+        moveRandom(container4, true);
+    } else {
+        moveRandom(newElement);
+    }
+    localStorage.setItem(`${newContainer}StartTime`, Date.now());
+}
+
 function nextStep(event) {
     event.stopPropagation();
     removeMisses();
-    // remove the current container
-    setContainerTime("container1");
-    container1.style.display = "none";
-    // set the next container to be active
-    localStorage.setItem("activeContainer", "container2");
-    localStorage.setItem("container2StartTime", Date.now());
-    container2.style.display = "flex";
-    moveRandom(container2);
+    nextContainer("container1", "container2");
 }
 
 function nextStep2(event) {
@@ -129,49 +142,11 @@ function nextStep2(event) {
     removeMisses();
     counter += 1;
     if (counter === 3) {
-        setContainerTime("container2");
-        container2.style.display = "none";
-        localStorage.setItem("activeContainer", "container3");
-        localStorage.setItem("container3StartTime", Date.now());
-        container3.style.display = "flex";
-        moveRandom(container3);
+        nextContainer("container2", "container3");
     } else {
         const h2 = document.getElementById("h2");
         h2.textContent = counter + "/3";
     }
-}
-
-function resetContainer4() {
-    draggable.style.display = 'block';
-    dropzone.style.backgroundColor = 'white';
-    dropzone.style.border = '1.5px dashed black';
-}
-
-function addEventListenersToLevel4() {
-
-    container4.addEventListener('dragover', (event) => {
-        allowDrop(event);
-        mouseOver(500, container4);
-    });
-    container4.addEventListener('drop', (event) => {
-        allowDrop(event);
-        // event.stopPropagation();
-        if (event.target!==dropzone) {
-            miss();
-        }
-        
-    });
-    
-    container4Wrapper.addEventListener('dragover', (event) => {
-        allowDrop(event);
-    });
-    container4Wrapper.addEventListener('drop', (event) => {
-        allowDrop(event);
-        if (event.target.id!=='dropzone' && event.target.id!=='container4') {
-            miss();
-        }
-        // allowDrop(event);
-    });
 }
 
 function nextStep3(event) {
@@ -186,15 +161,8 @@ function nextStep3(event) {
         container3.onmouseover = () => mouseOver2(container3);
         h2.textContent = counter2 + "/3";
     } else if (counter2 === 3) {
-        let container3Start = localStorage.getItem("container3StartTime");
-        let container3Time = Date.now() - container3Start;
-        localStorage.setItem("container3Time", container3Time);
-        container3.style.display = "none";
-        localStorage.setItem("activeContainer", "container4-wrapper");
-        localStorage.setItem("container4StartTime", Date.now());
-        container4Wrapper.style.display = "flex";
         resetContainer4();
-        moveRandom(container4);
+        nextContainer("container3", "container4-wrapper");
         addEventListenersToLevel4();
         // setTimeout(addEventListenersToLevel4, 100);
     }
@@ -228,6 +196,39 @@ function nextStep4_finish(event) {
         finish.style.display = "flex";
         title.style.display = "none";
     }, 500);
+}
+
+function resetContainer4() {
+    draggable.style.display = 'block';
+    dropzone.style.backgroundColor = 'white';
+    dropzone.style.border = '1.5px dashed black';
+}
+
+function addEventListenersToLevel4() {
+
+    container4.addEventListener('dragover', (event) => {
+        allowDrop(event);
+        mouseOver(500, container4);
+    });
+    container4.addEventListener('drop', (event) => {
+        allowDrop(event);
+        // event.stopPropagation();
+        if (event.target!==dropzone) {
+            miss();
+        }
+        
+    });
+    
+    container4Wrapper.addEventListener('dragover', (event) => {
+        allowDrop(event);
+    });
+    container4Wrapper.addEventListener('drop', (event) => {
+        allowDrop(event);
+        if (event.target.id!=='dropzone' && event.target.id!=='container4') {
+            miss();
+        }
+        // allowDrop(event);
+    });
 }
 
 function startOver(event) {
