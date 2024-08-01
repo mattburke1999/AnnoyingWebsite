@@ -1,12 +1,15 @@
 const container1 = document.getElementById("container1");
 const container2 = document.getElementById("container2");
 const container3 = document.getElementById("container3");
-const finish = document.getElementById("finished");
+const container4 = document.getElementById("container4");
+const click4Container = document.getElementById('click4-container');
 const container5 = document.getElementById('container5');
 const container5Wrapper = document.getElementById('container5-wrapper');
+const finish = document.getElementById("finished");
 const bodyContainer = document.getElementById('body');
 const timeContainer = document.getElementById('times');
 const themeSwitch = document.getElementById("dark-light-mode");
+const button4 = document.getElementById('click4');
 const title = document.getElementById("title");
 const draggable = document.getElementById('draggable');
 const dropzone = document.getElementById('dropzone');
@@ -16,10 +19,13 @@ const colors = ["red", "blue", "green", "purple", "orange", "pink", "brown"];
 container1.onmouseover = () => mouseOver(500, container1);
 container2.onmouseover = () => mouseOver(350, container2);
 container3.onmouseover = () => mouseOver2(container3);
+container4.onmouseover = () => mouseOver(1500, container4);
 container5.onmouseover = () => mouseOver(500, container5, true);
 
-draggable.ondragstart = (event) => nextStep4_start(event);
-dropzone.ondrop = (event) => nextStep4_finish(event);
+button4.onmouseover = () => mouseOver3(button4, click4Container);
+
+draggable.ondragstart = (event) => nextStep5_start(event);
+dropzone.ondrop = (event) => nextStep5_finish(event);
 dropzone.ondragover = (event) => allowDrop(event);
 
 let isMoving = false;
@@ -108,6 +114,13 @@ function mouseOver2(container) {
     }, 200);
 }
 
+function mouseOver3(container, outerContainer) {
+    // move the container slightly after a 200ms delay
+    setTimeout(function () {
+        moveSlightlyWithinContainer(container, outerContainer);
+    }, 90);
+}
+
 function setContainerTime(container) {
     let containerStart = localStorage.getItem(`${container}StartTime`);
     let containerTime = Date.now() - containerStart;
@@ -161,11 +174,17 @@ function nextStep3(event) {
         container3.onmouseover = () => mouseOver2(container3);
         h2.textContent = counter2 + "/3";
     } else if (counter2 === 3) {
-        resetContainer5();
-        nextContainer("container3", "container4-wrapper");
-        addEventListenersToLevel5();
-        // setTimeout(addEventListenersToLevel4, 100);
+        nextContainer("container3", "container4");
     }
+}
+
+function nextStep4(event) {
+    event.stopPropagation();
+    removeMisses();
+    setContainerTime("container4");
+    resetContainer5();
+    nextContainer("container4", "container5-wrapper");
+    addEventListenersToLevel5();
 }
 
 function nextStep5_start(event){
@@ -245,6 +264,49 @@ function startOver(event) {
     // reset active container
     nextContainer("finished", "container1");
     title.style.display = "block";
+}
+
+function moveSlightlyWithinContainer(object, outerContainer) {
+    // move the object a few pixels in a random direction
+    // make sure the object stays within the outer container
+    const objectWidth = parseFloat(window.getComputedStyle(object).getPropertyValue('width'));
+    const objectHeight = parseFloat(window.getComputedStyle(object).getPropertyValue('height'));
+    const outerContainerWidth = parseInt(outerContainer.offsetWidth);
+    const outerContainerHeight = parseInt(outerContainer.offsetHeight);
+    let x_move = (outerContainerWidth - objectWidth) / 2 - 1;
+    let y_move = (outerContainerHeight - objectHeight) / 2 - 1;
+    let x = parseFloat(window.getComputedStyle(object).getPropertyValue('left'));
+    let x_movement = 0;
+    if (x < x_move) {
+        x_movement = Math.floor(Math.random() * x_move);
+    } else if (x + objectWidth > outerContainerWidth - x_move) {
+        x_movement = Math.floor(Math.random() * -x_move);
+    } else {
+        x_movement = Math.floor(Math.random() * 2 * x_move) - x_move;
+    }
+    let y = parseFloat(window.getComputedStyle(object).getPropertyValue('top'));
+    let y_movement = 0;
+    if (y < y_move) {
+        y_movement = Math.floor(Math.random() * y_move);
+    } else if (y + objectHeight > outerContainerHeight - y_move) {
+        y_movement = Math.floor(Math.random() * -y_move);
+    } else {
+        y_movement = Math.floor(Math.random() * 2 * y_move) - y_move;
+    }
+    let new_x = x + x_movement;
+    let new_y = y + y_movement;
+    if (new_x < 0) {
+        new_x = 0;
+    } else if (new_x + objectWidth > outerContainerWidth) {
+        new_x = outerContainerWidth - objectWidth;
+    }
+    if (new_y < 0) {
+        new_y = 0;
+    } else if (new_y + objectHeight > outerContainerHeight) {
+        new_y = outerContainerHeight - objectHeight;
+    }
+    object.style.left = new_x + "px";
+    object.style.top = new_y + "px";
 }
 
 function moveSlightly(container) {

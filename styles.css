@@ -132,8 +132,20 @@
 
 .finished {
     width: 550px;
-    height: 475px;
+    height: fit-content;
     background-color: lightcoral;
+}
+
+.finished h1 {
+    margin-bottom: 0;
+}
+
+.times h2 {
+    margin-top: 10px;
+}
+
+.start-over {
+    margin-bottom: 20px;
 }
 
 .start-over:hover {
@@ -241,14 +253,7 @@ input:checked+.slider:before {
     z-index: 50;
 }
 
-.miss1,
-.miss2,
-.miss3,
-.miss4,
-.miss5,
-.miss6,
-.miss7,
-.miss8 {
+.miss {
     position: absolute;
     font-size: 1.5rem;
     text-shadow: 0 0 7px #1E90FF;
