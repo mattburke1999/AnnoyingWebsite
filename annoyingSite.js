@@ -1,12 +1,15 @@
 const container1 = document.getElementById("container1");
 const container2 = document.getElementById("container2");
 const container3 = document.getElementById("container3");
+const container4 = document.getElementById("container4");
+const click4Container = document.getElementById('click4-container');
+const container5 = document.getElementById('container5');
+const container5Wrapper = document.getElementById('container5-wrapper');
 const finish = document.getElementById("finished");
-const container4 = document.getElementById('container4');
-const container4Wrapper = document.getElementById('container4-wrapper');
 const bodyContainer = document.getElementById('body');
 const timeContainer = document.getElementById('times');
 const themeSwitch = document.getElementById("dark-light-mode");
+const button4 = document.getElementById('click4');
 const title = document.getElementById("title");
 const draggable = document.getElementById('draggable');
 const dropzone = document.getElementById('dropzone');
@@ -16,10 +19,13 @@ const colors = ["red", "blue", "green", "purple", "orange", "pink", "brown"];
 container1.onmouseover = () => mouseOver(500, container1);
 container2.onmouseover = () => mouseOver(350, container2);
 container3.onmouseover = () => mouseOver2(container3);
-container4.onmouseover = () => mouseOver(500, container4, true);
+container4.onmouseover = () => mouseOver(1500, container4);
+container5.onmouseover = () => mouseOver(500, container5, true);
 
-draggable.ondragstart = (event) => nextStep4_start(event);
-dropzone.ondrop = (event) => nextStep4_finish(event);
+button4.onmouseover = () => mouseOver3(button4, click4Container);
+
+draggable.ondragstart = (event) => nextStep5_start(event);
+dropzone.ondrop = (event) => nextStep5_finish(event);
 dropzone.ondragover = (event) => allowDrop(event);
 
 let isMoving = false;
@@ -67,7 +73,7 @@ function miss() {
 function check_div_over_miss_text(text) {
     // look through the miss texts for any that are display: block, mkae sure the container is not over them
     let activeContainer = localStorage.getItem("activeContainer");
-    let container = activeContainer!== "container4-wrapper" ? document.getElementById(activeContainer) : document.getElementById("container4");
+    let container = activeContainer!== "container5-wrapper" ? document.getElementById(activeContainer) : document.getElementById("container5");
     let containerLeft = parseInt(container.style.left);
     let containerTop = parseInt(container.style.top);
     let containerWidth = parseInt(container.offsetWidth);
@@ -108,6 +114,13 @@ function mouseOver2(container) {
     }, 200);
 }
 
+function mouseOver3(container, outerContainer) {
+    // move the container slightly after a 200ms delay
+    setTimeout(function () {
+        moveSlightlyWithinContainer(container, outerContainer);
+    }, 90);
+}
+
 function setContainerTime(container) {
     let containerStart = localStorage.getItem(`${container}StartTime`);
     let containerTime = Date.now() - containerStart;
@@ -122,9 +135,9 @@ function nextContainer(prevContainer, newContainer) {
     prevElement.style.display = "none";
     newElement.style.display = "flex";
     localStorage.setItem("activeContainer", newContainer);
-    if (newContainer.includes('container4')) {
-        newContainer = 'container4';
-        moveRandom(container4, true);
+    if (newContainer.includes('container5')) {
+        newContainer = 'container5';
+        moveRandom(container5, true);
     } else {
         moveRandom(newElement);
     }
@@ -161,21 +174,27 @@ function nextStep3(event) {
         container3.onmouseover = () => mouseOver2(container3);
         h2.textContent = counter2 + "/3";
     } else if (counter2 === 3) {
-        resetContainer4();
-        nextContainer("container3", "container4-wrapper");
-        addEventListenersToLevel4();
-        // setTimeout(addEventListenersToLevel4, 100);
+        nextContainer("container3", "container4");
     }
 }
 
-function nextStep4_start(event){
+function nextStep4(event) {
+    event.stopPropagation();
+    removeMisses();
+    setContainerTime("container4");
+    resetContainer5();
+    nextContainer("container4", "container5-wrapper");
+    addEventListenersToLevel5();
+}
+
+function nextStep5_start(event){
     let color = window.getComputedStyle(draggable).backgroundColor;
     let border = window.getComputedStyle(draggable).border;
     event.dataTransfer.setData("color", color);
     event.dataTransfer.setData("border", border);
 }
 
-function nextStep4_finish(event) {
+function nextStep5_finish(event) {
     event.preventDefault();
     isFinished = true;
     removeMisses();
@@ -185,49 +204,47 @@ function nextStep4_finish(event) {
     dropzone.style.border = newBorder;
     dropzone.textContent = 'Dropped!';
     draggable.style.display = 'none';
-    let container4Start = localStorage.getItem("container4StartTime");
-    let container4Time = Date.now() - container4Start;
-    localStorage.setItem("container4Time", container4Time);
+    let container5Start = localStorage.getItem("container5StartTime");
+    let container5Time = Date.now() - container5Start;
+    localStorage.setItem("container5Time", container5Time);
     localStorage.setItem("activeContainer", "finished");
     setTimes();
-    // wait .5 seconds before moving to the next step
+    // pause briefly to show the dropzone color
     setTimeout(function () {
-        container4Wrapper.style.display = "none";
+        container5Wrapper.style.display = "none";
         finish.style.display = "flex";
         title.style.display = "none";
-    }, 500);
+    }, 300);
 }
 
-function resetContainer4() {
+function resetContainer5() {
     draggable.style.display = 'block';
     dropzone.style.backgroundColor = 'white';
     dropzone.style.border = '1.5px dashed black';
 }
 
-function addEventListenersToLevel4() {
+function addEventListenersToLevel5() {
 
-    container4.addEventListener('dragover', (event) => {
+    container5.addEventListener('dragover', (event) => {
         allowDrop(event);
-        mouseOver(500, container4);
+        mouseOver(500, container5);
     });
-    container4.addEventListener('drop', (event) => {
+    container5.addEventListener('drop', (event) => {
         allowDrop(event);
-        // event.stopPropagation();
         if (event.target!==dropzone) {
             miss();
         }
         
     });
     
-    container4Wrapper.addEventListener('dragover', (event) => {
+    container5Wrapper.addEventListener('dragover', (event) => {
         allowDrop(event);
     });
-    container4Wrapper.addEventListener('drop', (event) => {
+    container5Wrapper.addEventListener('drop', (event) => {
         allowDrop(event);
-        if (event.target.id!=='dropzone' && event.target.id!=='container4') {
+        if (event.target.id!=='dropzone' && event.target.id!=='container5') {
             miss();
         }
-        // allowDrop(event);
     });
 }
 
@@ -245,12 +262,51 @@ function startOver(event) {
     // reset storage
     localStorage.clear();
     // reset active container
-    localStorage.setItem("activeContainer", "container1");
-    localStorage.setItem("container1StartTime", Date.now());
-    finish.style.display = "none";
-    container1.style.display = "flex";
+    nextContainer("finished", "container1");
     title.style.display = "block";
-    moveRandom(container1);
+}
+
+function moveSlightlyWithinContainer(object, outerContainer) {
+    // move the object a few pixels in a random direction
+    // make sure the object stays within the outer container
+    const objectWidth = parseFloat(window.getComputedStyle(object).getPropertyValue('width'));
+    const objectHeight = parseFloat(window.getComputedStyle(object).getPropertyValue('height'));
+    const outerContainerWidth = parseInt(outerContainer.offsetWidth);
+    const outerContainerHeight = parseInt(outerContainer.offsetHeight);
+    let x_move = (outerContainerWidth - objectWidth) / 2 - 1;
+    let y_move = (outerContainerHeight - objectHeight) / 2 - 1;
+    let x = parseFloat(window.getComputedStyle(object).getPropertyValue('left'));
+    let x_movement = 0;
+    if (x < x_move) {
+        x_movement = Math.floor(Math.random() * x_move);
+    } else if (x + objectWidth > outerContainerWidth - x_move) {
+        x_movement = Math.floor(Math.random() * -x_move);
+    } else {
+        x_movement = Math.floor(Math.random() * 2 * x_move) - x_move;
+    }
+    let y = parseFloat(window.getComputedStyle(object).getPropertyValue('top'));
+    let y_movement = 0;
+    if (y < y_move) {
+        y_movement = Math.floor(Math.random() * y_move);
+    } else if (y + objectHeight > outerContainerHeight - y_move) {
+        y_movement = Math.floor(Math.random() * -y_move);
+    } else {
+        y_movement = Math.floor(Math.random() * 2 * y_move) - y_move;
+    }
+    let new_x = x + x_movement;
+    let new_y = y + y_movement;
+    if (new_x < 0) {
+        new_x = 0;
+    } else if (new_x + objectWidth > outerContainerWidth) {
+        new_x = outerContainerWidth - objectWidth;
+    }
+    if (new_y < 0) {
+        new_y = 0;
+    } else if (new_y + objectHeight > outerContainerHeight) {
+        new_y = outerContainerHeight - objectHeight;
+    }
+    object.style.left = new_x + "px";
+    object.style.top = new_y + "px";
 }
 
 function moveSlightly(container) {
@@ -334,16 +390,7 @@ function removeMisses() {
 }
 
 function countMissTexts() {
-    let i = 1;
-    while(true){
-        var missText = document.getElementById(`miss${i}`);
-        if(missText) {
-            i += 1;
-        } else {
-            break;
-        }
-    }
-    return i-1;
+    return document.querySelectorAll('.miss').length;
 }
 
 themeSwitch.onchange = function () {
@@ -378,9 +425,9 @@ window.onload = function () {
     container.style.display = "flex";
     if (activeContainer.includes("finished")) {
         title.style.display = "none";
-    } else if (activeContainer.includes("container4")) {
-        addEventListenersToLevel4();
-        moveRandom(container4, true);
+    } else if (activeContainer.includes("container5")) {
+        addEventListenersToLevel5();
+        moveRandom(container5, true);
     } else {
         moveRandom(container);
     }

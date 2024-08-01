@@ -25,14 +25,15 @@
                 <span class="slider round"></span>
             </label>
         </div>
-        <h1 id="miss1" class="miss1" style="display: none;">Oof, you missed!</h1>
-        <h1 id="miss2" class="miss2" style="display: none;">So close!</h1>
-        <h1 id="miss3" class="miss3" style="display: none;">Almost there!</h1>
-        <h1 id="miss4" class="miss4" style="display: none;">You'll get it next time!</h1>
-        <h1 id="miss5" class="miss5" style="display: none;">You're getting closer!</h1>
-        <h1 id="miss6" class="miss6" style="display: none;">Nice Try!</h1>
-        <h1 id="miss7" class="miss7" style="display: none;">Sorry!</h1>
-        <h1 id="miss8" class="miss8" style="display: none;">Try Again!</h1>
+        <h1 id="miss1" class="miss" style="display: none;">Oof, you missed!</h1>
+        <h1 id="miss2" class="miss" style="display: none;">So close!</h1>
+        <h1 id="miss3" class="miss" style="display: none;">Almost there!</h1>
+        <h1 id="miss4" class="miss" style="display: none;">You'll get it next time!</h1>
+        <h1 id="miss5" class="miss" style="display: none;">You're getting closer!</h1>
+        <h1 id="miss6" class="miss" style="display: none;">Nice Try!</h1>
+        <h1 id="miss7" class="miss" style="display: none;">Sorry!</h1>
+        <h1 id="miss8" class="miss" style="display: none;">Try Again!</h1>
+        <h1 id="miss9" class="miss" style="display: none;">Oops!</h1>
         <div id='title' class="title" onclick="miss()">
             <h1>Welcome to my Game.</h1>
             <h2>Good Luck!</h2>
@@ -55,9 +56,17 @@
             <label for="click3">Click here to move on</label>
             <button id="click3" class="click3" onclick="nextStep3(event)">Click me</button>
         </div>
-        <div id="container4-wrapper" class="container4-wrapper" style="display: none;">
-            <h1 id="draggable" class='draggable' draggable="true">Drag me!</h1>
-            <div id="container4" class="container4">
+        <div id="container4" class="container4" onclick="miss()" style="display: none;">
+            <h1>You did it again!</h1>
+            <h1>Can you pass this one?</h1>
+            <label for="click4">Click here to move on</label>
+            <div id="click4-container" class="click4-container">
+                <button id="click4" class="click4" onclick="nextStep4(event)">Click me</button>
+            </div>
+        </div>
+        <div id="container5-wrapper" class="container5-wrapper" style="display: none;">
+            <h1 id="draggable" class='draggable' draggable="true">Drag me</h1>
+            <div id="container5" class="container5">
                 <h1>Time to change it up a bit.</h1>
                 <div id="dropzone" class='dropzone'>Drop here!</div>
             </div>
@@ -66,7 +75,7 @@
             <div class="finished">
                 <h1>Congratulations!</h1>
                 <h1>You have completed the game!</h1>
-                <div id="times">
+                <div id="times" class="times">
                 </div>
                 <button class="start-over" onclick="startOver(event)">Start Over</button>
             </div>
