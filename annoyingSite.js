@@ -20,7 +20,7 @@ container1.onmouseover = () => mouseOver(500, container1);
 container2.onmouseover = () => mouseOver(350, container2);
 container3.onmouseover = () => mouseOver2(container3);
 container4.onmouseover = () => mouseOver(1500, container4);
-container5.onmouseover = () => mouseOver(500, container5, true);
+container5.onmouseover = () => mouseOver(500, container5);
 
 button4.onmouseover = () => mouseOver3(button4, click4Container);
 
@@ -97,11 +97,11 @@ function allowDrop(event) {
     event.preventDefault();
 }
 
-function mouseOver(timeLimit, container, avoidLeft=false) {
+function mouseOver(timeLimit, container) {
     if (!isMoving) {
         isMoving = true;
         setTimeout(function () {
-            moveRandom(container, avoidLeft);
+            moveRandom(container);
             isMoving = false;
         }, timeLimit);
     }
@@ -273,15 +273,15 @@ function moveSlightlyWithinContainer(object, outerContainer) {
     const objectHeight = parseFloat(window.getComputedStyle(object).getPropertyValue('height'));
     const outerContainerWidth = parseInt(outerContainer.offsetWidth);
     const outerContainerHeight = parseInt(outerContainer.offsetHeight);
-    let x_move = (outerContainerWidth - objectWidth) / 2 - 1;
+    let x_move = (outerContainerWidth - objectWidth) / 2 - 1; // allows the object to move the max distance without going out of bounds
     let y_move = (outerContainerHeight - objectHeight) / 2 - 1;
     let x = parseFloat(window.getComputedStyle(object).getPropertyValue('left'));
     let x_movement = 0;
-    if (x < x_move) {
+    if (x < x_move) { // if the object is close to the left edge, move it to the right
         x_movement = Math.floor(Math.random() * x_move);
-    } else if (x + objectWidth > outerContainerWidth - x_move) {
+    } else if (x + objectWidth > outerContainerWidth - x_move) { // too close to the right edge, move it to the left
         x_movement = Math.floor(Math.random() * -x_move);
-    } else {
+    } else { // move it in a random direction
         x_movement = Math.floor(Math.random() * 2 * x_move) - x_move;
     }
     let y = parseFloat(window.getComputedStyle(object).getPropertyValue('top'));
@@ -329,16 +329,17 @@ function moveSlightly(container) {
     container.style.top = new_top + "px";
 }
 
-function moveRandom(object, avoidLeft=false) {
-    const objectWidth = avoidLeft ? parseInt(object.offsetWidth) + 100 : parseInt(object.offsetWidth);
-    const objectHeight = parseInt(object.offsetHeight) + 90; // 90 is the height of the header
-    let x = Math.floor(Math.random() * (window.innerWidth - objectWidth)) 
-    x = avoidLeft ? x + 100 : x;
-    let y = 90 + Math.floor(Math.random() * (window.innerHeight - objectHeight));
-    let x_condition = Math.abs(x - parseInt(object.style.left)) < objectWidth / 2
-    let y_condition = Math.abs(y - parseInt(object.style.top)) < objectHeight / 2
-    if (x_condition && y_condition) {
-        moveRandom(object, avoidLeft);
+function moveRandom(object) {
+    const objectWidth = parseInt(object.offsetWidth);
+    const objectHeight = parseInt(object.offsetHeight);
+    const titleWidth = parseInt(title.offsetWidth) + 20; // add some padding
+    const titleHeight = parseInt(title.offsetHeight) + 20;
+    let x = Math.floor(Math.random() * (window.innerWidth - objectWidth));
+    let y = Math.floor(Math.random() * (window.innerHeight - objectHeight));
+    if ((Math.abs(x - parseInt(object.style.left)) < objectWidth) && (Math.abs(y - parseInt(object.style.top)) < objectHeight)) {
+        moveRandom(object);
+    }else if (x < titleWidth && y < titleHeight) { // make sure the object is not overlapping the title
+        moveRandom(object);
     } else {
         object.style.left = x + "px";
         object.style.top = y + "px";
