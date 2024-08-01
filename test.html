@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>test</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+    <div class="body">
+        <div id="container4" class="container4">
+            <h1>You did it again!</h1>
+            <h1>Can you pass this one?</h1>
+            <label for="click4">Click here to move on</label>
+            <div id="click4-container" class="click4-container">
+                <button id="click4" class="click4" onclick="hit()">Click me</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const container4 = document.getElementById('container4');
+    const click4Container = document.getElementById('click4-container');
+    const button4 = document.getElementById('click4');
+
+    container4.onmouseover = () => mouseOver(1500, container4);
+    button4.onmouseover = () => mouseOver3(button4, click4Container);
+
+    let isMoving = false;
+    let isFinished = false;
+
+    function hit() {
+        console.log('hit');
+    }
+
+    function moveSlightlyWithinContainer(object, outerContainer) {
+        // move the object a few pixels in a random direction
+        // make sure the object stays within the outer container
+        let x_move = 55;
+        let y_move = 35;
+        const objectWidth = parseFloat(window.getComputedStyle(object).getPropertyValue('width'));
+        const objectHeight = parseFloat(window.getComputedStyle(object).getPropertyValue('height'));
+        console.log('object', objectWidth, objectHeight);
+        const outerContainerWidth = parseInt(outerContainer.offsetWidth);
+        const outerContainerHeight = parseInt(outerContainer.offsetHeight);
+        console.log('container', outerContainerWidth, outerContainerHeight);
+        let x = parseFloat(window.getComputedStyle(object).getPropertyValue('left'));
+        let x_movement = 0;
+        if (x < x_move) {
+            x_movement = Math.floor(Math.random() * x_move);
+        } else if (x + objectWidth > outerContainerWidth - x_move) {
+            x_movement = Math.floor(Math.random() * -x_move);
+        } else {
+            x_movement = Math.floor(Math.random() * 2 * x_move) - x_move;
+        }
+        let y = parseFloat(window.getComputedStyle(object).getPropertyValue('top'));
+        let y_movement = 0;
+        if (y < y_move) {
+            y_movement = Math.floor(Math.random() * y_move);
+        } else if (y + objectHeight > outerContainerHeight - y_move) {
+            y_movement = Math.floor(Math.random() * -y_move);
+        } else {
+            y_movement = Math.floor(Math.random() * 2 * y_move) - y_move;
+        }
+        let new_x = x + x_movement;
+        let new_y = y + y_movement;
+        if (new_x < 0) {
+            new_x = 0;
+        } else if (new_x + objectWidth > outerContainerWidth) {
+            new_x = outerContainerWidth - objectWidth;
+        }
+        if (new_y < 0) {
+            new_y = 0;
+        } else if (new_y + objectHeight > outerContainerHeight) {
+            new_y = outerContainerHeight - objectHeight;
+        }
+        object.style.left = new_x + "px";
+        object.style.top = new_y + "px";
+    }
+
+    function moveRandom(object, avoidLeft=false) {
+        const objectWidth = avoidLeft ? parseInt(object.offsetWidth) + 100 : parseInt(object.offsetWidth);
+        const objectHeight = parseInt(object.offsetHeight) + 90; // 90 is the height of the header
+        let x = Math.floor(Math.random() * (window.innerWidth - objectWidth)) 
+        x = avoidLeft ? x + 100 : x;
+        let y = 90 + Math.floor(Math.random() * (window.innerHeight - objectHeight));
+        let x_condition = Math.abs(x - parseInt(object.style.left)) < objectWidth / 2
+        let y_condition = Math.abs(y - parseInt(object.style.top)) < objectHeight / 2
+        if (x_condition && y_condition) {
+            moveRandom(object, avoidLeft);
+        } else {
+            object.style.left = x + "px";
+            object.style.top = y + "px";
+        }
+    }
+
+    function mouseOver(timeLimit, container, avoidLeft=false) {
+        if (!isMoving) {
+            isMoving = true;
+            setTimeout(function () {
+                moveRandom(container, avoidLeft);
+                isMoving = false;
+            }, timeLimit);
+        }
+    }
+
+    function mouseOver3(container, outerContainer) {
+        // move the container slightly after a 200ms delay
+        setTimeout(function () {
+            moveSlightlyWithinContainer(container, outerContainer);
+        }, 90);
+    }
+
+</script>
+
+</html>
