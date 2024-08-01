@@ -245,12 +245,8 @@ function startOver(event) {
     // reset storage
     localStorage.clear();
     // reset active container
-    localStorage.setItem("activeContainer", "container1");
-    localStorage.setItem("container1StartTime", Date.now());
-    finish.style.display = "none";
-    container1.style.display = "flex";
+    nextContainer("finished", "container1");
     title.style.display = "block";
-    moveRandom(container1);
 }
 
 function moveSlightly(container) {
@@ -334,16 +330,7 @@ function removeMisses() {
 }
 
 function countMissTexts() {
-    let i = 1;
-    while(true){
-        var missText = document.getElementById(`miss${i}`);
-        if(missText) {
-            i += 1;
-        } else {
-            break;
-        }
-    }
-    return i-1;
+    return document.querySelectorAll('.miss').length;
 }
 
 themeSwitch.onchange = function () {
